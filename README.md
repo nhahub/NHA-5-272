@@ -89,33 +89,12 @@ The full database backup is available from the [official Microsoft release](http
 <img src="assets/workflow.gif" alt="Project workflow in eight stages. Completed: SQL Server source, CSV export of 16 tables, data understanding and profiling. In progress: data cleaning, six individual candidates. Pending: team consolidation into one approved dataset. Planned: exploratory analysis, data warehouse with star schema and ETL, Power BI with three report pages." width="100%">
 </p>
 
-```mermaid
-flowchart LR
-    subgraph S["Source"]
-        A[("SQL Server<br/>WideWorldImporters OLTP")] --> B["CSV export<br/>16 tables"]
-    end
-    subgraph P["Preparation"]
-        C["Data understanding<br/>and profiling"] --> D["Individual cleaning<br/>6 member submissions"]
-        D --> E{"Team review and<br/>consolidation"}
-        E --> F[("Approved unified<br/>dataset")]
-    end
-    subgraph R["Analytics and BI"]
-        G["Exploratory<br/>data analysis"] --> H[("Star schema<br/>data warehouse")]
-        H --> I["Power BI<br/>3 report pages"]
-    end
-    B --> C
-    F --> G
-    F -->|ETL| H
+<picture>
+  <source media="(min-width: 768px)" srcset="assets/readme/workflow-diagram.svg">
+  <img src="assets/readme/workflow-diagram-mobile.svg" alt="Project workflow in eight steps: 1 Source (completed), 2 Data understanding and profiling (completed), 3 Individual cleaning submissions (in progress), 4 Team review and consolidation (pending), 5 Approved unified dataset, 6 Exploratory data analysis, 7 Star schema data warehouse, 8 Power BI (all planned)." width="100%">
+</picture>
 
-    classDef done fill:#0F766E,stroke:#2DD4BF,color:#FFFFFF
-    classDef active fill:#0E7490,stroke:#22D3EE,color:#FFFFFF,stroke-width:3px
-    classDef planned fill:#1E293B,stroke:#64748B,color:#E2E8F0,stroke-dasharray:5 4
-    class A,B,C done
-    class D active
-    class E,F,G,H,I planned
-```
-
-<sub>Teal: completed. Cyan: in progress. Dashed: pending or planned.</sub>
+<p align="center"><sub>Project workflow from source data to analytics and BI deliverables. <a href="docs/workflow-diagram.md">Mermaid source</a>.</sub></p>
 
 <p align="center"><img src="assets/divider.png" alt="" width="70%"></p>
 
@@ -158,6 +137,8 @@ The team will compare each member's documented data scope, cleaning decisions, r
 NHA-5-272/
 ├── README.md                                  project overview and current status
 ├── assets/                                    README banner, workflow animation, divider
+│   └── readme/                                static workflow diagrams (desktop and mobile)
+├── docs/                                      workflow diagram source (Mermaid)
 ├── 00_Source_Data/
 │   ├── README.md                              source notes and backup download
 │   └── CSV_Exports/                           16 raw CSVs, data dictionary, addendum, export QA
