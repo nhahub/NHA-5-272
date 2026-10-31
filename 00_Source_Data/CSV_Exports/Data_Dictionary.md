@@ -1,6 +1,6 @@
 # Wide World Importers — CSV Data Dictionary
 
-DEPI Team 6 · Export-only preparation for a later pandas EDA notebook. No EDA was performed.
+DEPI Professional Data Analyst Track · Export-only preparation for a later pandas EDA notebook. No EDA was performed.
 
 - Source: `Omar\SQLEXPRESS` / `WideWorldImporters`; Windows Authentication.
 - Source export started: `2026-10-17 13:57:57.831656` (SQL Server local timestamp; timezone is not encoded).

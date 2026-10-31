@@ -1,4 +1,4 @@
-# Customer Export Addendum — DEPI Team 6
+# Customer Export Addendum — DEPI Graduation Project
 
 ## Scope and provenance
 
@@ -160,6 +160,8 @@ SHA-256 was recorded before extraction and recalculated after all export and rel
 | `Warehouse_StockItemTransactions.csv` | `b916a5d342b866bd5d4049c2d06eaf57e7eda84ef68a0df450badc47e50345c7` | `b916a5d342b866bd5d4049c2d06eaf57e7eda84ef68a0df450badc47e50345c7` | UNCHANGED |
 | `Data_Dictionary.md` | `0cc2937df96da0d9cdafaa0b35c0494ce10670aac32f2950d6777282aaec8623` | `0cc2937df96da0d9cdafaa0b35c0494ce10670aac32f2950d6777282aaec8623` | UNCHANGED |
 | `CSV_Export_QA_Report.html` | `9b715d883a0aef87c1d9f6d2962c6c5b83787a14469dceb606de80e443dfbbf6` | `9b715d883a0aef87c1d9f6d2962c6c5b83787a14469dceb606de80e443dfbbf6` | UNCHANGED |
+
+> **Identity note (2026-10-31):** the project-team wording in the headers of this addendum, `Data_Dictionary.md` and `CSV_Export_QA_Report.html` was corrected after export (the team has six members and no official team number). No data, schema or validation content changed; the hashes recorded above describe those files at export time.
 
 ## Safe pandas loading and category join
 

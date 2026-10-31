@@ -1,11 +1,11 @@
 <div align="center">
 
-<img src="assets/banner.png" alt="Wide World Importers: Supply Chain Analytics and Business Intelligence. DEPI Professional Data Analyst Track, Team 6. The artwork maps the 16 exported source tables, sized by row count and linked by their foreign keys." width="100%">
+<img src="assets/banner.png" alt="Wide World Importers: Supply Chain Analytics and Business Intelligence. DEPI Professional Data Analyst Track graduation project. The artwork maps the 16 exported source tables, sized by row count and linked by their foreign keys." width="100%">
 
 <br>
 
 ![Milestone](https://img.shields.io/badge/milestone-individual%20data%20cleaning-0891B2?style=for-the-badge&labelColor=0A1A2F)
-![Team](https://img.shields.io/badge/DEPI-Team%206-14B8A6?style=for-the-badge&labelColor=0A1A2F)
+![DEPI](https://img.shields.io/badge/DEPI-Professional%20Data%20Analyst%20Track-14B8A6?style=for-the-badge&labelColor=0A1A2F)
 ![Source](https://img.shields.io/badge/source-16%20tables%20%7C%20852%2C074%20rows-3B82F6?style=for-the-badge&labelColor=0A1A2F)
 
 **[Overview](#overview)** &nbsp;&nbsp;|&nbsp;&nbsp;
@@ -153,7 +153,7 @@ NHA-5-272/
 
 ## Team
 
-DEPI Professional Data Analyst Track, Team 6.
+Our graduation project is developed collaboratively by a six-member team in the DEPI (Digital Egypt Pioneers Initiative) Professional Data Analyst Track.
 
 | Member | Role |
 |---|---|
