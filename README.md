@@ -4,7 +4,7 @@
 
 An end-to-end analytics and business intelligence project on Microsoft's **Wide World Importers** sample: a wholesale distributor's sales, customer, inventory and purchasing operations. The project turns operational SQL Server data into validated, analysis-ready datasets and, in later phases, a custom dimensional model and Power BI reports.
 
-> **Status (31 Oct 2026):** planning documents, data export, data understanding and one member's full data cleaning are complete. EDA, the data warehouse, ETL and Power BI have **not started yet** — see [Current progress](#current-progress).
+> **Current milestone: INDIVIDUAL CLEANING SUBMISSIONS IN PROGRESS — TEAM CONSOLIDATION PENDING.** Data Understanding and Profiling have been completed individually. No unified team cleaning approach or cleaned dataset has been approved.
 
 ## Business problem
 
@@ -43,17 +43,13 @@ Full details: [Project Proposal](01_Project_Planning_and_Documentation/1_Project
 
 ## Repository structure
 
-```
-├── 01_Project_Planning_and_Documentation/   DEPI documentation sections 1–3 (.docx)
-│   ├── 1_Project_Planning_and_Management/   proposal, plan & timeline, roles, risks, success measures
-│   ├── 2_Literature_Review/                 references, alternatives, evaluation and improvements
-│   └── 3_Requirements_Gathering/            stakeholders, user stories, use cases, functional & non-functional requirements
-├── 00_Source_Data/
-│   └── CSV_Exports/                         the 16 raw CSV exports + Data Dictionary, Customer Addendum, export QA report
-└── 03_Data_Cleaning/                        individual cleaning submission v1.0.0
-    ├── scripts/                             cleaning pipeline, schema, typed loader, tests, verifiers
-    ├── cleaned_data/1.0.0/                  the 16 cleaned CSV files
-    └── reports/                             decision log, quality and business validation reports, manifest
+```text
+README.md                                project overview and current submission status
+00_Source_Data/CSV_Exports/               16 raw CSVs, Data Dictionary, Customer Addendum and export QA
+01_Project_Planning_and_Documentation/
+    1_Project_Planning_and_Management/    proposal, planning and team roles
+    2_Literature_Review/                  literature and lecturer review
+    3_Requirements_Gathering/             requirements documentation
 ```
 
 ## Current progress
@@ -64,55 +60,25 @@ Full details: [Project Proposal](01_Project_Planning_and_Documentation/1_Project
 | 2. Literature Review | Documented ([folder](01_Project_Planning_and_Documentation/2_Literature_Review/)). No written instructor evaluation has been received yet; none is claimed. |
 | 3. Requirements Gathering | Documented ([folder](01_Project_Planning_and_Documentation/3_Requirements_Gathering/)) |
 | Database restore and CSV export (16 tables) | Completed; export checked cell by cell against SQL Server |
-| Data Understanding & Profiling | Completed. **The notebooks are still being finalized and will be uploaded later.** |
-| Data Cleaning (one member's individual submission, v1.0.0) | Completed and verified. **The cleaning notebook will be uploaded later**; the scripts, cleaned data and reports are included now. |
-| Team comparison and approval of one unified clean dataset | Not done yet |
-| EDA, System Analysis & Design, Data Warehouse & ETL, Power BI, Testing, Final Presentation | Not started |
+| Data Understanding & Profiling | Completed individually; notebooks are being finalized and are not included in this submission. |
+| Individual Data Cleaning | All six members independently work on the full agreed 16-dataset scope. One member has completed and validated an individual candidate; other individual submissions are being prepared. |
+| Team comparison and consolidation | Pending. No unified cleaning approach or cleaned dataset has been approved. |
+| EDA, Data Warehouse, ETL and Power BI | Not completed; future work after approval of the unified dataset. |
+| Final testing, documentation and presentation | Pending. |
 
-## Data cleaning — verified results (v1.0.0)
+## Cleaning submission and approval
 
-- **No rows or columns removed.** 852,074 rows and 10,486,934 cells in, the same out.
-- **All 557,283 NULL values kept.** They carry meaning (for example "no backorder" or "picking not finished"), so filling them would invent data.
-- **0 duplicate rows**, and 0 duplicate or missing primary keys.
-- **30 foreign-key relationships checked with 0 orphans**, plus 28 references to tables outside the export, checked with read-only SQL.
-- **One value corrected:** a trailing space in package type 13 (`"Tub "` → `"Tub"`).
-- **Data types fixed** without changing any value: dates, integer quantities, exact `Decimal` money values and true/false flags (52 columns).
-- **Four business findings kept and documented, not "fixed":**
-  - 7,538 picked orders without a picker ID: KEEP.
-  - 4,626 negative-profit invoice lines: KEEP.
-  - 167 invoices more than 365 days after the order (backorders keep the original order date): FLAG.
-  - 227 stock holdings that differ from movement totals: needs business confirmation.
+All six team members independently perform full Data Cleaning. Their results will be compared and consolidated into one approved cleaned dataset before the remaining project tasks are distributed.
 
-  See the [Business Validation Review](03_Data_Cleaning/reports/Business_Validation_Review.md).
+The team will compare documented data scopes, cleaning decisions, reproducible code and before/after validation. Conflicting decisions and unresolved business questions must be reviewed before approval. Original raw datasets remain unchanged.
 
-Start with the [Final Cleaning Handoff](03_Data_Cleaning/reports/Final_Cleaning_Handoff.md) and the [Cleaning Decision Log](03_Data_Cleaning/reports/Cleaning_Decision_Log.md).
+The individual cleaning candidate is retained in the member's original local project for team comparison. It is not the team's final implementation and is excluded from the current official submission. Official cleaned datasets, cleaning notebooks, code and reports will be published only after team review and approval.
 
-## How to reproduce
+## Access the current submission
 
-Requirements: Windows, Python 3.14. SQL Server is needed only for the optional source checks.
+Use the [Data Dictionary](00_Source_Data/CSV_Exports/Data_Dictionary.md) for raw CSV columns, keys, NULL handling and loading conventions. The [planning documentation](01_Project_Planning_and_Documentation/) contains the first three required documentation sections.
 
-```powershell
-git clone https://github.com/nhahub/NHA-5-272.git
-cd NHA-5-272
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r 03_Data_Cleaning/requirements.txt
-
-# 16 regression tests of the cleaning rules
-.\.venv\Scripts\python.exe 03_Data_Cleaning/scripts/test_cleaning_pipeline.py
-# independent check: raw vs cleaned, cell by cell (expects status PASS and exactly one change)
-.\.venv\Scripts\python.exe 03_Data_Cleaning/scripts/verify_cleaned_outputs.py --check-only
-```
-
-Load cleaned tables with their correct types:
-
-```python
-import sys
-sys.path.insert(0, "03_Data_Cleaning/scripts")
-from load_cleaned_data import load_table
-orders = load_table("Sales_Orders")   # typed and SHA-256 checked
-```
-
-**Optional, needs the database.** Restore `WideWorldImporters-Full.bak` from the [official Microsoft release](https://github.com/microsoft/sql-server-samples/releases/tag/wide-world-importers-v1.0). Then run `03_Data_Cleaning/scripts/verify_sql_source.py`, which only reads (SELECT-only). It connects to `OMAR\SQLEXPRESS`, so change the server name in the script for your machine.
+The original SQL Server OLTP backup is available from the [official Microsoft release](https://github.com/microsoft/sql-server-samples/releases/tag/wide-world-importers-v1.0). Select `WideWorldImporters-Full.bak`, not the separate warehouse backup.
 
 ## Next phases
 
@@ -136,7 +102,8 @@ orders = load_table("Sales_Orders")   # typed and SHA-256 checked
 
 ## Not included in this repository
 
-- **Jupyter notebooks** (Data Understanding, Profiling and Data Cleaning): still being finalized; they will be uploaded later.
+- **Jupyter notebooks:** none are included in the current submission. Individual Data Understanding and Profiling notebooks are being finalized; team cleaning notebooks require review and approval before publication.
+- **Individual cleaning code, candidate cleaned datasets and reports:** excluded until team comparison and approval of a unified implementation.
 - **SQL Server backups** (`.bak`, 54–127 MB each): they are Microsoft's public files, available from the official release linked above.
 - Personal study guides, archived earlier versions, local environments and temporary files.
 
