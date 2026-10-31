@@ -1,0 +1,132 @@
+{
+  "status": "PASS",
+  "method": "Separate stdlib CSV/Decimal implementation, matched by primary key; no pipeline imports",
+  "datasets": [
+    {
+      "dataset": "Application_DeliveryMethods",
+      "rows": 10,
+      "cells_compared": 30,
+      "NULL_cells": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "Application_TransactionTypes",
+      "rows": 13,
+      "cells_compared": 39,
+      "NULL_cells": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "Purchasing_PurchaseOrderLines",
+      "rows": 8367,
+      "cells_compared": 100404,
+      "NULL_cells": 9,
+      "status": "PASS"
+    },
+    {
+      "dataset": "Purchasing_PurchaseOrders",
+      "rows": 2074,
+      "cells_compared": 18666,
+      "NULL_cells": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "Purchasing_SupplierCategories",
+      "rows": 9,
+      "cells_compared": 27,
+      "NULL_cells": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "Purchasing_Suppliers",
+      "rows": 13,
+      "cells_compared": 130,
+      "NULL_cells": 4,
+      "status": "PASS"
+    },
+    {
+      "dataset": "Sales_CustomerCategories",
+      "rows": 8,
+      "cells_compared": 16,
+      "NULL_cells": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "Sales_Customers",
+      "rows": 663,
+      "cells_compared": 2652,
+      "NULL_cells": 261,
+      "status": "PASS"
+    },
+    {
+      "dataset": "Sales_InvoiceLines",
+      "rows": 228265,
+      "cells_compared": 2967445,
+      "NULL_cells": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "Sales_Invoices",
+      "rows": 70510,
+      "cells_compared": 1128160,
+      "NULL_cells": 84,
+      "status": "PASS"
+    },
+    {
+      "dataset": "Sales_OrderLines",
+      "rows": 231412,
+      "cells_compared": 2776944,
+      "NULL_cells": 3147,
+      "status": "PASS"
+    },
+    {
+      "dataset": "Sales_Orders",
+      "rows": 73595,
+      "cells_compared": 883140,
+      "NULL_cells": 79765,
+      "status": "PASS"
+    },
+    {
+      "dataset": "Warehouse_PackageTypes",
+      "rows": 14,
+      "cells_compared": 42,
+      "NULL_cells": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "Warehouse_StockItemHoldings",
+      "rows": 227,
+      "cells_compared": 2043,
+      "NULL_cells": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "Warehouse_StockItems",
+      "rows": 227,
+      "cells_compared": 3859,
+      "NULL_cells": 591,
+      "status": "PASS"
+    },
+    {
+      "dataset": "Warehouse_StockItemTransactions",
+      "rows": 236667,
+      "cells_compared": 2603337,
+      "NULL_cells": 473422,
+      "status": "PASS"
+    }
+  ],
+  "total_cells_compared": 10486934,
+  "changes": [
+    [
+      "Warehouse_PackageTypes",
+      "13",
+      "PackageTypeName",
+      "'Tub '",
+      "'Tub'"
+    ]
+  ],
+  "internal_relationships_checked": 30,
+  "tax_disagreements": 0,
+  "extended_price_disagreements": 0,
+  "limits": "Technical integrity reviewed; business caveats and external lookup scope remain. Not independent human approval."
+}

@@ -1,0 +1,15 @@
+{
+  "scope": "Documentation finalization only; no full cleaning rerun or SQL access",
+  "regression_tests": "14 passed",
+  "independent_output_review": "PASS: 10486934 cells; only approved C001 difference",
+  "manifest_consistency": "PASS: 16 files, source/output/code/schema fingerprints and execution counts consistent",
+  "notebook": "Valid; all 18 original code cells and saved outputs preserved; final Markdown updated only",
+  "loading_schema": "139 columns, previously verified typed reload results retained",
+  "protected_files_unchanged": 52,
+  "data_changes": 0,
+  "technical_status": "All 16 PASS",
+  "inventory_disposition": "227 records REQUIRE BUSINESS CONFIRMATION",
+  "ready_for_individual_team_review": true,
+  "approved_unified_dataset": false,
+  "note": "Pipeline baseline statuses remain 12 PASS / 4 NEEDS REVIEW; final business dispositions are separate, evidence-hash-bound metadata."
+}

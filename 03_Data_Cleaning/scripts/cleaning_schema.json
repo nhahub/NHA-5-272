@@ -1,0 +1,1567 @@
+{
+  "version": "1.0.0",
+  "database": "WideWorldImporters",
+  "datasets": {
+    "Application_DeliveryMethods": {
+      "table": "Application.DeliveryMethods",
+      "primary_key": "DeliveryMethodID",
+      "rows": 10,
+      "sha256": "9250f002553e050e322f1ddaba84db1e44880e76976f1af790a70d15ae446009",
+      "columns": [
+        {
+          "name": "DeliveryMethodID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "DeliveryMethodName",
+          "sql_type": "nvarchar",
+          "precision": 0,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 100
+        },
+        {
+          "name": "LastEditedBy",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        }
+      ],
+      "foreign_keys": [
+        {
+          "column": "LastEditedBy",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        }
+      ]
+    },
+    "Application_TransactionTypes": {
+      "table": "Application.TransactionTypes",
+      "primary_key": "TransactionTypeID",
+      "rows": 13,
+      "sha256": "41c5f541afe24550b8213d5ccdbd00c387ff9165cc400bae9476f41b60f1ca75",
+      "columns": [
+        {
+          "name": "TransactionTypeID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "TransactionTypeName",
+          "sql_type": "nvarchar",
+          "precision": 0,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 100
+        },
+        {
+          "name": "LastEditedBy",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        }
+      ],
+      "foreign_keys": [
+        {
+          "column": "LastEditedBy",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        }
+      ]
+    },
+    "Purchasing_PurchaseOrderLines": {
+      "table": "Purchasing.PurchaseOrderLines",
+      "primary_key": "PurchaseOrderLineID",
+      "rows": 8367,
+      "sha256": "d53891aefd150bf3afcb5d84ab40c952bd57786914cc5bb194a151a9b08a7abe",
+      "columns": [
+        {
+          "name": "PurchaseOrderLineID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "PurchaseOrderID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "StockItemID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "OrderedOuters",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "Description",
+          "sql_type": "nvarchar",
+          "precision": 0,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 200
+        },
+        {
+          "name": "ReceivedOuters",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "PackageTypeID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "ExpectedUnitPricePerOuter",
+          "sql_type": "decimal",
+          "precision": 18,
+          "scale": 2,
+          "nullable": true,
+          "max_length": 9
+        },
+        {
+          "name": "LastReceiptDate",
+          "sql_type": "date",
+          "precision": 10,
+          "scale": 0,
+          "nullable": true,
+          "max_length": 3
+        },
+        {
+          "name": "IsOrderLineFinalized",
+          "sql_type": "bit",
+          "precision": 1,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 1
+        },
+        {
+          "name": "LastEditedBy",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "LastEditedWhen",
+          "sql_type": "datetime2",
+          "precision": 27,
+          "scale": 7,
+          "nullable": false,
+          "max_length": 8
+        }
+      ],
+      "foreign_keys": [
+        {
+          "column": "PurchaseOrderID",
+          "parent": "Purchasing_PurchaseOrders",
+          "parent_key": "PurchaseOrderID"
+        },
+        {
+          "column": "StockItemID",
+          "parent": "Warehouse_StockItems",
+          "parent_key": "StockItemID"
+        },
+        {
+          "column": "PackageTypeID",
+          "parent": "Warehouse_PackageTypes",
+          "parent_key": "PackageTypeID"
+        },
+        {
+          "column": "LastEditedBy",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        }
+      ]
+    },
+    "Purchasing_PurchaseOrders": {
+      "table": "Purchasing.PurchaseOrders",
+      "primary_key": "PurchaseOrderID",
+      "rows": 2074,
+      "sha256": "4563c934c18da6b401f8a9fe4b5215db630c646a4e4f3d80965c9a62a62e1895",
+      "columns": [
+        {
+          "name": "PurchaseOrderID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "SupplierID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "OrderDate",
+          "sql_type": "date",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 3
+        },
+        {
+          "name": "DeliveryMethodID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "ContactPersonID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "ExpectedDeliveryDate",
+          "sql_type": "date",
+          "precision": 10,
+          "scale": 0,
+          "nullable": true,
+          "max_length": 3
+        },
+        {
+          "name": "IsOrderFinalized",
+          "sql_type": "bit",
+          "precision": 1,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 1
+        },
+        {
+          "name": "LastEditedBy",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "LastEditedWhen",
+          "sql_type": "datetime2",
+          "precision": 27,
+          "scale": 7,
+          "nullable": false,
+          "max_length": 8
+        }
+      ],
+      "foreign_keys": [
+        {
+          "column": "SupplierID",
+          "parent": "Purchasing_Suppliers",
+          "parent_key": "SupplierID"
+        },
+        {
+          "column": "DeliveryMethodID",
+          "parent": "Application_DeliveryMethods",
+          "parent_key": "DeliveryMethodID"
+        },
+        {
+          "column": "ContactPersonID",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        },
+        {
+          "column": "LastEditedBy",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        }
+      ]
+    },
+    "Purchasing_SupplierCategories": {
+      "table": "Purchasing.SupplierCategories",
+      "primary_key": "SupplierCategoryID",
+      "rows": 9,
+      "sha256": "bcd8bc0a1f8f82f21b8673addca038f3611aa33039f4d0e3bb4f35f0cbb3118f",
+      "columns": [
+        {
+          "name": "SupplierCategoryID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "SupplierCategoryName",
+          "sql_type": "nvarchar",
+          "precision": 0,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 100
+        },
+        {
+          "name": "LastEditedBy",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        }
+      ],
+      "foreign_keys": [
+        {
+          "column": "LastEditedBy",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        }
+      ]
+    },
+    "Purchasing_Suppliers": {
+      "table": "Purchasing.Suppliers",
+      "primary_key": "SupplierID",
+      "rows": 13,
+      "sha256": "f16035d8d9584affd1e2e01516ded9a60fe383d70875f9947899cb4f83d729f8",
+      "columns": [
+        {
+          "name": "SupplierID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "SupplierName",
+          "sql_type": "nvarchar",
+          "precision": 0,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 200
+        },
+        {
+          "name": "SupplierCategoryID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "PrimaryContactPersonID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "AlternateContactPersonID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "DeliveryMethodID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": true,
+          "max_length": 4
+        },
+        {
+          "name": "DeliveryCityID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "PostalCityID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "PaymentDays",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "LastEditedBy",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        }
+      ],
+      "foreign_keys": [
+        {
+          "column": "SupplierCategoryID",
+          "parent": "Purchasing_SupplierCategories",
+          "parent_key": "SupplierCategoryID"
+        },
+        {
+          "column": "PrimaryContactPersonID",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        },
+        {
+          "column": "AlternateContactPersonID",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        },
+        {
+          "column": "DeliveryMethodID",
+          "parent": "Application_DeliveryMethods",
+          "parent_key": "DeliveryMethodID"
+        },
+        {
+          "column": "DeliveryCityID",
+          "parent": "Application_Cities",
+          "parent_key": "CityID"
+        },
+        {
+          "column": "PostalCityID",
+          "parent": "Application_Cities",
+          "parent_key": "CityID"
+        },
+        {
+          "column": "LastEditedBy",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        }
+      ]
+    },
+    "Sales_CustomerCategories": {
+      "table": "Sales.CustomerCategories",
+      "primary_key": "CustomerCategoryID",
+      "rows": 8,
+      "sha256": "5f646d90f3135cba2c738e985d3b38dff639eb4d4c59ff8cea9602ce28a8a67a",
+      "columns": [
+        {
+          "name": "CustomerCategoryID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "CustomerCategoryName",
+          "sql_type": "nvarchar",
+          "precision": 0,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 100
+        }
+      ],
+      "foreign_keys": []
+    },
+    "Sales_Customers": {
+      "table": "Sales.Customers",
+      "primary_key": "CustomerID",
+      "rows": 663,
+      "sha256": "c6ef6e87e53ef38cb603a507a4d3bc727ba60b5c2339ceb92c572340450b8341",
+      "columns": [
+        {
+          "name": "CustomerID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "CustomerCategoryID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "BuyingGroupID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": true,
+          "max_length": 4
+        },
+        {
+          "name": "AccountOpenedDate",
+          "sql_type": "date",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 3
+        }
+      ],
+      "foreign_keys": [
+        {
+          "column": "CustomerCategoryID",
+          "parent": "Sales_CustomerCategories",
+          "parent_key": "CustomerCategoryID"
+        },
+        {
+          "column": "BuyingGroupID",
+          "parent": "Sales_BuyingGroups",
+          "parent_key": "BuyingGroupID"
+        }
+      ]
+    },
+    "Sales_InvoiceLines": {
+      "table": "Sales.InvoiceLines",
+      "primary_key": "InvoiceLineID",
+      "rows": 228265,
+      "sha256": "4bd0b896477780c4cd63626c6d6389e2ae1c68cb336a6ebcdd1245f9a80dfea2",
+      "columns": [
+        {
+          "name": "InvoiceLineID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "InvoiceID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "StockItemID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "Description",
+          "sql_type": "nvarchar",
+          "precision": 0,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 200
+        },
+        {
+          "name": "PackageTypeID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "Quantity",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "UnitPrice",
+          "sql_type": "decimal",
+          "precision": 18,
+          "scale": 2,
+          "nullable": true,
+          "max_length": 9
+        },
+        {
+          "name": "TaxRate",
+          "sql_type": "decimal",
+          "precision": 18,
+          "scale": 3,
+          "nullable": false,
+          "max_length": 9
+        },
+        {
+          "name": "TaxAmount",
+          "sql_type": "decimal",
+          "precision": 18,
+          "scale": 2,
+          "nullable": false,
+          "max_length": 9
+        },
+        {
+          "name": "LineProfit",
+          "sql_type": "decimal",
+          "precision": 18,
+          "scale": 2,
+          "nullable": false,
+          "max_length": 9
+        },
+        {
+          "name": "ExtendedPrice",
+          "sql_type": "decimal",
+          "precision": 18,
+          "scale": 2,
+          "nullable": false,
+          "max_length": 9
+        },
+        {
+          "name": "LastEditedBy",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "LastEditedWhen",
+          "sql_type": "datetime2",
+          "precision": 27,
+          "scale": 7,
+          "nullable": false,
+          "max_length": 8
+        }
+      ],
+      "foreign_keys": [
+        {
+          "column": "InvoiceID",
+          "parent": "Sales_Invoices",
+          "parent_key": "InvoiceID"
+        },
+        {
+          "column": "StockItemID",
+          "parent": "Warehouse_StockItems",
+          "parent_key": "StockItemID"
+        },
+        {
+          "column": "PackageTypeID",
+          "parent": "Warehouse_PackageTypes",
+          "parent_key": "PackageTypeID"
+        },
+        {
+          "column": "LastEditedBy",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        }
+      ]
+    },
+    "Sales_Invoices": {
+      "table": "Sales.Invoices",
+      "primary_key": "InvoiceID",
+      "rows": 70510,
+      "sha256": "ce9e097934233ff70da0f9d560c6de4b9e6b38a794260e134e7c0b7947be669f",
+      "columns": [
+        {
+          "name": "InvoiceID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "CustomerID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "BillToCustomerID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "OrderID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": true,
+          "max_length": 4
+        },
+        {
+          "name": "DeliveryMethodID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "ContactPersonID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "AccountsPersonID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "SalespersonPersonID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "PackedByPersonID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "InvoiceDate",
+          "sql_type": "date",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 3
+        },
+        {
+          "name": "IsCreditNote",
+          "sql_type": "bit",
+          "precision": 1,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 1
+        },
+        {
+          "name": "TotalDryItems",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "TotalChillerItems",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "ConfirmedDeliveryTime",
+          "sql_type": "datetime2",
+          "precision": 27,
+          "scale": 7,
+          "nullable": true,
+          "max_length": 8
+        },
+        {
+          "name": "LastEditedBy",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "LastEditedWhen",
+          "sql_type": "datetime2",
+          "precision": 27,
+          "scale": 7,
+          "nullable": false,
+          "max_length": 8
+        }
+      ],
+      "foreign_keys": [
+        {
+          "column": "CustomerID",
+          "parent": "Sales_Customers",
+          "parent_key": "CustomerID"
+        },
+        {
+          "column": "BillToCustomerID",
+          "parent": "Sales_Customers",
+          "parent_key": "CustomerID"
+        },
+        {
+          "column": "OrderID",
+          "parent": "Sales_Orders",
+          "parent_key": "OrderID"
+        },
+        {
+          "column": "DeliveryMethodID",
+          "parent": "Application_DeliveryMethods",
+          "parent_key": "DeliveryMethodID"
+        },
+        {
+          "column": "ContactPersonID",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        },
+        {
+          "column": "AccountsPersonID",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        },
+        {
+          "column": "SalespersonPersonID",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        },
+        {
+          "column": "PackedByPersonID",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        },
+        {
+          "column": "LastEditedBy",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        }
+      ]
+    },
+    "Sales_OrderLines": {
+      "table": "Sales.OrderLines",
+      "primary_key": "OrderLineID",
+      "rows": 231412,
+      "sha256": "841d83aec4359df9904f5f48edf516491315d538d802f3a8519c4394ba194431",
+      "columns": [
+        {
+          "name": "OrderLineID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "OrderID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "StockItemID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "Description",
+          "sql_type": "nvarchar",
+          "precision": 0,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 200
+        },
+        {
+          "name": "PackageTypeID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "Quantity",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "UnitPrice",
+          "sql_type": "decimal",
+          "precision": 18,
+          "scale": 2,
+          "nullable": true,
+          "max_length": 9
+        },
+        {
+          "name": "TaxRate",
+          "sql_type": "decimal",
+          "precision": 18,
+          "scale": 3,
+          "nullable": false,
+          "max_length": 9
+        },
+        {
+          "name": "PickedQuantity",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "PickingCompletedWhen",
+          "sql_type": "datetime2",
+          "precision": 27,
+          "scale": 7,
+          "nullable": true,
+          "max_length": 8
+        },
+        {
+          "name": "LastEditedBy",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "LastEditedWhen",
+          "sql_type": "datetime2",
+          "precision": 27,
+          "scale": 7,
+          "nullable": false,
+          "max_length": 8
+        }
+      ],
+      "foreign_keys": [
+        {
+          "column": "OrderID",
+          "parent": "Sales_Orders",
+          "parent_key": "OrderID"
+        },
+        {
+          "column": "StockItemID",
+          "parent": "Warehouse_StockItems",
+          "parent_key": "StockItemID"
+        },
+        {
+          "column": "PackageTypeID",
+          "parent": "Warehouse_PackageTypes",
+          "parent_key": "PackageTypeID"
+        },
+        {
+          "column": "LastEditedBy",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        }
+      ]
+    },
+    "Sales_Orders": {
+      "table": "Sales.Orders",
+      "primary_key": "OrderID",
+      "rows": 73595,
+      "sha256": "186da951162262dafa7a45073de22e73b53908d083a72b6cfc9a39f1841e946b",
+      "columns": [
+        {
+          "name": "OrderID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "CustomerID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "SalespersonPersonID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "PickedByPersonID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": true,
+          "max_length": 4
+        },
+        {
+          "name": "ContactPersonID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "BackorderOrderID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": true,
+          "max_length": 4
+        },
+        {
+          "name": "OrderDate",
+          "sql_type": "date",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 3
+        },
+        {
+          "name": "ExpectedDeliveryDate",
+          "sql_type": "date",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 3
+        },
+        {
+          "name": "IsUndersupplyBackordered",
+          "sql_type": "bit",
+          "precision": 1,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 1
+        },
+        {
+          "name": "PickingCompletedWhen",
+          "sql_type": "datetime2",
+          "precision": 27,
+          "scale": 7,
+          "nullable": true,
+          "max_length": 8
+        },
+        {
+          "name": "LastEditedBy",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "LastEditedWhen",
+          "sql_type": "datetime2",
+          "precision": 27,
+          "scale": 7,
+          "nullable": false,
+          "max_length": 8
+        }
+      ],
+      "foreign_keys": [
+        {
+          "column": "CustomerID",
+          "parent": "Sales_Customers",
+          "parent_key": "CustomerID"
+        },
+        {
+          "column": "SalespersonPersonID",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        },
+        {
+          "column": "PickedByPersonID",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        },
+        {
+          "column": "ContactPersonID",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        },
+        {
+          "column": "BackorderOrderID",
+          "parent": "Sales_Orders",
+          "parent_key": "OrderID"
+        },
+        {
+          "column": "LastEditedBy",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        }
+      ]
+    },
+    "Warehouse_PackageTypes": {
+      "table": "Warehouse.PackageTypes",
+      "primary_key": "PackageTypeID",
+      "rows": 14,
+      "sha256": "15cc634cae328f6558384b5138c3e07d4b46238a56e979c11834371b4091405a",
+      "columns": [
+        {
+          "name": "PackageTypeID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "PackageTypeName",
+          "sql_type": "nvarchar",
+          "precision": 0,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 100
+        },
+        {
+          "name": "LastEditedBy",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        }
+      ],
+      "foreign_keys": [
+        {
+          "column": "LastEditedBy",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        }
+      ]
+    },
+    "Warehouse_StockItemHoldings": {
+      "table": "Warehouse.StockItemHoldings",
+      "primary_key": "StockItemID",
+      "rows": 227,
+      "sha256": "cf0c0638a954158236ba081bb8a3a63c9b0948e471ea9c3c1dc36e754e72290f",
+      "columns": [
+        {
+          "name": "StockItemID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "QuantityOnHand",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "BinLocation",
+          "sql_type": "nvarchar",
+          "precision": 0,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 40
+        },
+        {
+          "name": "LastStocktakeQuantity",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "LastCostPrice",
+          "sql_type": "decimal",
+          "precision": 18,
+          "scale": 2,
+          "nullable": false,
+          "max_length": 9
+        },
+        {
+          "name": "ReorderLevel",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "TargetStockLevel",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "LastEditedBy",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "LastEditedWhen",
+          "sql_type": "datetime2",
+          "precision": 27,
+          "scale": 7,
+          "nullable": false,
+          "max_length": 8
+        }
+      ],
+      "foreign_keys": [
+        {
+          "column": "StockItemID",
+          "parent": "Warehouse_StockItems",
+          "parent_key": "StockItemID"
+        },
+        {
+          "column": "LastEditedBy",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        }
+      ]
+    },
+    "Warehouse_StockItems": {
+      "table": "Warehouse.StockItems",
+      "primary_key": "StockItemID",
+      "rows": 227,
+      "sha256": "d6287e348e6df5371b27e72ba5e8ea759a1d45a8fcd0bc8b0f5717058db3851d",
+      "columns": [
+        {
+          "name": "StockItemID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "StockItemName",
+          "sql_type": "nvarchar",
+          "precision": 0,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 200
+        },
+        {
+          "name": "SupplierID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "ColorID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": true,
+          "max_length": 4
+        },
+        {
+          "name": "UnitPackageID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "OuterPackageID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "Brand",
+          "sql_type": "nvarchar",
+          "precision": 0,
+          "scale": 0,
+          "nullable": true,
+          "max_length": 100
+        },
+        {
+          "name": "Size",
+          "sql_type": "nvarchar",
+          "precision": 0,
+          "scale": 0,
+          "nullable": true,
+          "max_length": 40
+        },
+        {
+          "name": "LeadTimeDays",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "QuantityPerOuter",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "IsChillerStock",
+          "sql_type": "bit",
+          "precision": 1,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 1
+        },
+        {
+          "name": "Barcode",
+          "sql_type": "nvarchar",
+          "precision": 0,
+          "scale": 0,
+          "nullable": true,
+          "max_length": 100
+        },
+        {
+          "name": "TaxRate",
+          "sql_type": "decimal",
+          "precision": 18,
+          "scale": 3,
+          "nullable": false,
+          "max_length": 9
+        },
+        {
+          "name": "UnitPrice",
+          "sql_type": "decimal",
+          "precision": 18,
+          "scale": 2,
+          "nullable": false,
+          "max_length": 9
+        },
+        {
+          "name": "RecommendedRetailPrice",
+          "sql_type": "decimal",
+          "precision": 18,
+          "scale": 2,
+          "nullable": true,
+          "max_length": 9
+        },
+        {
+          "name": "TypicalWeightPerUnit",
+          "sql_type": "decimal",
+          "precision": 18,
+          "scale": 3,
+          "nullable": false,
+          "max_length": 9
+        },
+        {
+          "name": "LastEditedBy",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        }
+      ],
+      "foreign_keys": [
+        {
+          "column": "SupplierID",
+          "parent": "Purchasing_Suppliers",
+          "parent_key": "SupplierID"
+        },
+        {
+          "column": "ColorID",
+          "parent": "Warehouse_Colors",
+          "parent_key": "ColorID"
+        },
+        {
+          "column": "UnitPackageID",
+          "parent": "Warehouse_PackageTypes",
+          "parent_key": "PackageTypeID"
+        },
+        {
+          "column": "OuterPackageID",
+          "parent": "Warehouse_PackageTypes",
+          "parent_key": "PackageTypeID"
+        },
+        {
+          "column": "LastEditedBy",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        }
+      ]
+    },
+    "Warehouse_StockItemTransactions": {
+      "table": "Warehouse.StockItemTransactions",
+      "primary_key": "StockItemTransactionID",
+      "rows": 236667,
+      "sha256": "b916a5d342b866bd5d4049c2d06eaf57e7eda84ef68a0df450badc47e50345c7",
+      "columns": [
+        {
+          "name": "StockItemTransactionID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "StockItemID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "TransactionTypeID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "CustomerID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": true,
+          "max_length": 4
+        },
+        {
+          "name": "InvoiceID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": true,
+          "max_length": 4
+        },
+        {
+          "name": "SupplierID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": true,
+          "max_length": 4
+        },
+        {
+          "name": "PurchaseOrderID",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": true,
+          "max_length": 4
+        },
+        {
+          "name": "TransactionOccurredWhen",
+          "sql_type": "datetime2",
+          "precision": 27,
+          "scale": 7,
+          "nullable": false,
+          "max_length": 8
+        },
+        {
+          "name": "Quantity",
+          "sql_type": "decimal",
+          "precision": 18,
+          "scale": 3,
+          "nullable": false,
+          "max_length": 9
+        },
+        {
+          "name": "LastEditedBy",
+          "sql_type": "int",
+          "precision": 10,
+          "scale": 0,
+          "nullable": false,
+          "max_length": 4
+        },
+        {
+          "name": "LastEditedWhen",
+          "sql_type": "datetime2",
+          "precision": 27,
+          "scale": 7,
+          "nullable": false,
+          "max_length": 8
+        }
+      ],
+      "foreign_keys": [
+        {
+          "column": "StockItemID",
+          "parent": "Warehouse_StockItems",
+          "parent_key": "StockItemID"
+        },
+        {
+          "column": "TransactionTypeID",
+          "parent": "Application_TransactionTypes",
+          "parent_key": "TransactionTypeID"
+        },
+        {
+          "column": "CustomerID",
+          "parent": "Sales_Customers",
+          "parent_key": "CustomerID"
+        },
+        {
+          "column": "InvoiceID",
+          "parent": "Sales_Invoices",
+          "parent_key": "InvoiceID"
+        },
+        {
+          "column": "SupplierID",
+          "parent": "Purchasing_Suppliers",
+          "parent_key": "SupplierID"
+        },
+        {
+          "column": "PurchaseOrderID",
+          "parent": "Purchasing_PurchaseOrders",
+          "parent_key": "PurchaseOrderID"
+        },
+        {
+          "column": "LastEditedBy",
+          "parent": "Application_People",
+          "parent_key": "PersonID"
+        }
+      ]
+    }
+  }
+}

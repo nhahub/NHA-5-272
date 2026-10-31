@@ -1,0 +1,7 @@
+# Versions used for the verified cleaning run. Install into a virtual environment: pip install -r requirements.txt
+# pyodbc is needed only for the optional read-only SQL verification.
+pandas==3.0.6
+nbformat==5.11.1
+nbclient==0.11.0
+ipykernel==7.4.0
+pyodbc==5.3.0
