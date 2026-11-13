@@ -105,6 +105,7 @@ The full database backup is available from the [official Microsoft release](http
 | Project Planning & Management | ![Documented](https://img.shields.io/badge/documented-0F766E?style=flat-square) | [Proposal, plan and team roles](01_Project_Planning_and_Documentation/1_Project_Planning_and_Management/) |
 | Literature Review | ![Documented](https://img.shields.io/badge/documented-0F766E?style=flat-square) | [Literature and lecturer review](01_Project_Planning_and_Documentation/2_Literature_Review/). No written instructor evaluation has been received yet. |
 | Requirements Gathering | ![Documented](https://img.shields.io/badge/documented-0F766E?style=flat-square) | [Requirements documentation](01_Project_Planning_and_Documentation/3_Requirements_Gathering/) |
+| System Analysis & Design | Documented | [DOCX](01_Project_Planning_and_Documentation/4_System_Analysis_and_Design/04_System_Analysis_and_Design.docx) / [PDF](01_Project_Planning_and_Documentation/4_System_Analysis_and_Design/04_System_Analysis_and_Design.pdf). Tested local architecture; scope and business approvals remain pending. |
 | Database restore and CSV export | ![Completed](https://img.shields.io/badge/completed-0F766E?style=flat-square) | 16 tables, checked against SQL Server |
 | Data understanding and profiling | ![Completed](https://img.shields.io/badge/completed%20individually-0F766E?style=flat-square) | Notebooks are being finalized and will be uploaded later. |
 | Individual data cleaning | ![In progress](https://img.shields.io/badge/in%20progress-0E7490?style=flat-square) | All six members clean the full 16-table scope independently. One candidate is completed and verified; the others are in preparation. |
@@ -125,6 +126,7 @@ The team will compare each member's documented data scope, cleaning decisions, r
 | Team Roles | Planning & Management | [03_Team_Roles.docx](01_Project_Planning_and_Documentation/1_Project_Planning_and_Management/03_Team_Roles.docx) |
 | Literature and Lecturer Review | Literature Review | [05_Literature_and_Lecturer_Review.docx](01_Project_Planning_and_Documentation/2_Literature_Review/05_Literature_and_Lecturer_Review.docx) |
 | Requirements Gathering | Requirements | [04_Requirements_Gathering.docx](01_Project_Planning_and_Documentation/3_Requirements_Gathering/04_Requirements_Gathering.docx) |
+| System Analysis & Design | Section 4 | [Editable DOCX](01_Project_Planning_and_Documentation/4_System_Analysis_and_Design/04_System_Analysis_and_Design.docx) / [PDF](01_Project_Planning_and_Documentation/4_System_Analysis_and_Design/04_System_Analysis_and_Design.pdf) |
 | Data Dictionary (14 tables) | Source data | [Data_Dictionary.md](00_Source_Data/CSV_Exports/Data_Dictionary.md) |
 | Customer export addendum (2 tables) | Source data | [Customer_Export_Addendum.md](00_Source_Data/CSV_Exports/Customer_Export_Addendum.md) |
 | CSV export QA report | Source data | [CSV_Export_QA_Report.html](00_Source_Data/CSV_Exports/CSV_Export_QA_Report.html) |
@@ -146,7 +148,8 @@ NHA-5-272/
     ├── README.md                              section index
     ├── 1_Project_Planning_and_Management/     proposal, planning, team roles
     ├── 2_Literature_Review/                   literature and lecturer review
-    └── 3_Requirements_Gathering/              requirements documentation
+    ├── 3_Requirements_Gathering/              requirements documentation
+    └── 4_System_Analysis_and_Design/          editable design document and matching PDF
 ```
 
 <p align="center"><img src="assets/divider.png" alt="" width="70%"></p>
@@ -168,8 +171,8 @@ Our graduation project is developed collaboratively by a six-member team in the 
 
 1. Compare the six cleaning submissions and approve one unified dataset.
 2. Exploratory data analysis on the approved dataset.
-3. System analysis and design: star schema, ERD, data flow and ETL design (due 6 Nov 2026).
-4. ETL into a custom data warehouse, with SQL reconciliation tests.
+3. Review the submitted System Analysis & Design; agree on source scope and the future dimensional model.
+4. Extend the isolated, technically tested ETL candidate after team approval; production deployment remains pending.
 5. Power BI: three report pages with validated KPIs.
 6. Testing, final report and presentation (due 4 Dec 2026).
 
