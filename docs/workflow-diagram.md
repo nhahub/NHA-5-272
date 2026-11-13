@@ -1,31 +1,20 @@
-# Workflow diagram source (Mermaid)
+# README visual system
 
-This is the original Mermaid version of the project workflow, kept for reference and editing. The main [README](../README.md) shows static SVG versions instead (`assets/readme/workflow-diagram.svg` and `workflow-diagram-mobile.svg`), because Mermaid does not render in every GitHub view, notably on mobile.
+Original graphics for the official project landing page. No business values are inferred from illustrative charts.
 
-```mermaid
-flowchart LR
-    subgraph S["Source"]
-        A[("SQL Server<br/>WideWorldImporters OLTP")] --> B["CSV export<br/>16 tables"]
-    end
-    subgraph P["Preparation"]
-        C["Data understanding<br/>and profiling"] --> D["Individual cleaning<br/>6 member submissions"]
-        D --> E{"Team review and<br/>consolidation"}
-        E --> F[("Approved unified<br/>dataset")]
-    end
-    subgraph R["Analytics and BI"]
-        G["Exploratory<br/>data analysis"] --> H[("Star schema<br/>data warehouse")]
-        H --> I["Power BI<br/>3 report pages"]
-    end
-    B --> C
-    F --> G
-    F -->|ETL| H
+- Palette: navy `#071527`, midnight `#0B1E36`, cyan `#00D4FF`, teal `#00C9A7`, purple `#8B5CF6`, white `#EAF4FF`.
+- Three animated moments: supply-chain network, architectural data flow and analytical-domain motifs.
+- Each GIF has 40 frames at 100 ms per frame, a shared 128-color palette and an equivalent static PNG. Desktop and mobile compositions are separate.
+- README picture sources prefer static PNGs for reduced-motion settings, mobile GIFs on narrow screens and desktop GIFs otherwise. Direct static links remain available if a client ignores media preferences.
+- Gold grain and validation graphics are static SVGs with accessible text descriptions in the README.
+- Architecture solid stages represent implemented layers; dashed reporting stages are planned. The local test validates the restored snapshot, not a new source extraction or production deployment.
 
-    classDef done fill:#0F766E,stroke:#2DD4BF,color:#FFFFFF
-    classDef active fill:#0E7490,stroke:#22D3EE,color:#FFFFFF,stroke-width:3px
-    classDef planned fill:#1E293B,stroke:#64748B,color:#E2E8F0,stroke-dasharray:5 4
-    class A,B,C done
-    class D active
-    class E,F,G,H,I planned
+## Reproduce
+
+From the repository root on Windows, using a trusted Python environment with Pillow and installed Segoe UI fonts:
+
+```powershell
+python assets/readme/source/render_visuals.py
 ```
 
-Teal: completed. Cyan: in progress. Dashed: pending or planned.
+The generator only writes README graphics under `assets/readme/`. It does not read source datasets, connect to SQL Server or modify project implementations. No external logos, stock images or JavaScript embeds are required.

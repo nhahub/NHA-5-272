@@ -1,189 +1,210 @@
-<div align="center">
+<picture>
+  <source media="(prefers-reduced-motion: reduce) and (max-width: 680px)" srcset="assets/readme/hero-mobile.png">
+  <source media="(prefers-reduced-motion: reduce)" srcset="assets/readme/hero.png">
+  <source media="(max-width: 680px)" srcset="assets/readme/hero-mobile.gif">
+  <img src="assets/readme/hero.gif" alt="Wide World Importers — Supply Chain Analytics and Business Intelligence. DEPI Professional Data Analyst Track. Connected sales, purchasing, inventory and customer data." width="100%">
+</picture>
 
-<img src="assets/banner.png" alt="Wide World Importers: Supply Chain Analytics and Business Intelligence. DEPI Professional Data Analyst Track graduation project. The artwork maps the 16 exported source tables, sized by row count and linked by their foreign keys." width="100%">
+# Wide World Importers
 
-<br>
+### Supply Chain Analytics & Business Intelligence
 
-![Milestone](https://img.shields.io/badge/milestone-individual%20data%20cleaning-0891B2?style=for-the-badge&labelColor=0A1A2F)
-![DEPI](https://img.shields.io/badge/DEPI-Professional%20Data%20Analyst%20Track-14B8A6?style=for-the-badge&labelColor=0A1A2F)
-![Source](https://img.shields.io/badge/source-16%20tables%20%7C%20852%2C074%20rows-3B82F6?style=for-the-badge&labelColor=0A1A2F)
+An end-to-end analytical solution for understanding **demand, purchasing, inventory and fulfillment**. Built on Microsoft's wholesale-distribution sample, the project connects SQL Server data engineering, business-aware Python transformations and analytical SQL views—with Power BI as the planned reporting layer.
 
-**[Overview](#overview)** &nbsp;&nbsp;|&nbsp;&nbsp;
-**[Dataset](#dataset)** &nbsp;&nbsp;|&nbsp;&nbsp;
-**[Workflow](#analytics-workflow)** &nbsp;&nbsp;|&nbsp;&nbsp;
-**[Progress](#current-progress)** &nbsp;&nbsp;|&nbsp;&nbsp;
-**[Documentation](#documentation)** &nbsp;&nbsp;|&nbsp;&nbsp;
-**[Team](#team)** &nbsp;&nbsp;|&nbsp;&nbsp;
-**[Roadmap](#roadmap)**
+**Preserve the source. Make transformations traceable. Build decisions on validated data.**
 
-</div>
+[Architecture](#data-architecture) · [Dataset](#source-data) · [Analytics](#analytics-domains) · [Validation](#technical-validation) · [Documentation](#project-documentation) · [Team](#project-team)
 
-> [!IMPORTANT]
-> **Current milestone: individual data cleaning submissions, team consolidation pending.**
-> Each of the six members is preparing an individual cleaning submission. One individual candidate has been completed and verified; the team has **not** yet approved a unified cleaned dataset. EDA, the data warehouse, ETL and Power BI have not started, so this repository contains no dashboards, KPIs or analytical findings.
+[**Read the system design →**](01_Project_Planning_and_Documentation/4_System_Analysis_and_Design/04_System_Analysis_and_Design.pdf) &nbsp; [Explore the source exports](00_Source_Data/CSV_Exports/)
 
-<p align="center"><img src="assets/divider.png" alt="" width="70%"></p>
+---
 
-## Overview
+## The business challenge
 
-An end-to-end analytics and business intelligence project built on Microsoft's **Wide World Importers** sample: a wholesale distributor's sales, customers, inventory and purchasing. The project takes operational SQL Server data through profiling and validated cleaning, then into a custom dimensional model and Power BI reports.
+A customer order, a supplier receipt and a stock movement tell different parts of the same story. Bringing them together requires more than joining tables: quantities use different units, events happen on different dates, and historical movements do not automatically explain today's stock balance.
 
-## Business problem
+| Business question | Analytical approach |
+|---|---|
+| What is driving customer demand? | Separate ordered demand from invoiced sales; examine products, customers and categories. |
+| Where could fulfillment improve? | Compare ordered, picked and unmet quantities at the correct line grain. |
+| How should inventory decisions be informed? | Combine current holdings, replenishment settings and signed movements without inventing opening balances. |
+| How does purchasing support availability? | Compare ordered and received packs, supplier activity and expected purchase values. |
 
-Sales, customer, inventory and purchasing data live in separate operational tables, each with its own grain, status codes and history. Answering basic management questions consistently (revenue and profit by customer or product, stock movement, supplier purchasing) needs clear metric definitions and data whose quality has been checked. Reports built straight on the operational tables can double-count, mix grains or hide data-quality issues.
+The solution is designed to support these decisions through a reproducible path from operational records to clearly defined measures. Business questions guide the model; technical tests establish whether its outputs can be trusted.
 
-## Objectives
+## Data architecture
 
-| | Objective |
-|:-:|---|
-| **1** | Understand the source tables, relationships, business rules and data quality. |
-| **2** | Produce clean, validated, reproducible datasets without inventing or deleting data. |
-| **3** | Design a custom dimensional (star schema) model for selected KPIs. |
-| **4** | Build repeatable ETL with validation and logging. |
-| **5** | Deliver three Power BI report pages (Executive Overview, Sales & Customers, Inventory & Purchasing) with KPIs reconciled against SQL. |
+<picture>
+  <source media="(prefers-reduced-motion: reduce) and (max-width: 680px)" srcset="assets/readme/architecture-mobile.png">
+  <source media="(prefers-reduced-motion: reduce)" srcset="assets/readme/architecture.png">
+  <source media="(max-width: 680px)" srcset="assets/readme/architecture-mobile.gif">
+  <img src="assets/readme/architecture.gif" alt="Architecture: WWI OLTP to Bronze, Python cleaning, Silver tables and Gold SQL views. Semantic modeling, Power BI and business insight delivery are planned. Solid stages are implemented layers; dashed stages are proposed reporting." width="100%">
+</picture>
 
-Full scope: [Project Proposal](01_Project_Planning_and_Documentation/1_Project_Planning_and_Management/01_Project_Proposal.docx).
+**Bronze → Python → Silver → Gold** is the implemented analytical foundation. An isolated restored warehouse snapshot supports the validated integration test; it is not a production deployment or proof that source extraction has been replayed end to end.
+
+| Layer | Responsibility |
+|---|---|
+| **Bronze** | Preserve staged operational records. The restored warehouse contains 48 tables: 31 current and 17 historical/archive objects. |
+| **Python transformation** | Apply explicit types, justified corrections and business-rule checks through 14 cleaning components. |
+| **Silver** | Maintain 31 typed relational outputs with primary/composite keys and tested foreign-key constraints. |
+| **Gold** | Expose 18 SQL views for analytical joins and measures—not 18 physical fact or dimension tables. |
+| **Semantic modeling & Power BI** | Planned relationships, measures and reporting experiences, subject to business-definition and model review. |
+
+The controlled test uses `candidate_silver`, `candidate_gold` and `candidate_evidence` in **`WWI_Cleaning_Test`**, retaining the restored Silver/Gold baseline for comparison. Original OLTP and reference databases remain protected.
+
+## Source data
+
+**Microsoft WideWorldImporters Full OLTP** models a wholesale distributor. The separate `WideWorldImportersDW` sample is not the operational source. This is synthetic historical data; the transaction sample covers 2013–May 2016, with an incomplete final year.
+
+The published CSV reference contains **16 tables and 852,074 rows**. The wider warehouse test contains **31 Silver tables and 1,057,452 rows**. These are different scopes and grains, not competing counts of the same dataset.
+
+| Published source domain | Tables |
+|---|---|
+| Sales | Orders, OrderLines, Invoices, InvoiceLines, Customers, CustomerCategories |
+| Purchasing | Suppliers, SupplierCategories, PurchaseOrders, PurchaseOrderLines |
+| Warehouse | StockItems, StockItemHoldings, StockItemTransactions, PackageTypes |
+| Application | TransactionTypes, DeliveryMethods |
+
+[**Browse the 16 CSVs**](00_Source_Data/CSV_Exports/) · [Data Dictionary](00_Source_Data/CSV_Exports/Data_Dictionary.md) · [Customer reference addendum](00_Source_Data/CSV_Exports/Customer_Export_Addendum.md) · [Export QA](00_Source_Data/CSV_Exports/CSV_Export_QA_Report.html)
+
+<details>
+<summary><strong>Read the exports without losing source meaning</strong></summary>
+
+Files use UTF-8 with BOM, quoted fields and `\N` for SQL NULL. Preserve identifiers and decimal text during initial loading:
+
+```python
+import pandas as pd
+
+orders = pd.read_csv(
+    "00_Source_Data/CSV_Exports/Sales_Orders.csv",
+    encoding="utf-8-sig",
+    dtype="string",
+    keep_default_na=False,
+    na_values=[r"\N"],
+)
+```
+
+Convert dates and analytical quantities explicitly. Use exact decimal handling for financial calculations. An empty string is not the same as SQL NULL.
+
+The original `WideWorldImporters-Full.bak` is available from the [official Microsoft release](https://github.com/microsoft/sql-server-samples/releases/tag/wide-world-importers-v1.0). See the [source notes](00_Source_Data/README.md) before restoring into your own isolated environment.
+
+</details>
+
+## Cleaning and transformation
+
+**Correct evidence-backed defects; preserve legitimate business exceptions.** The candidate separates raw inputs, transformed outputs and validation evidence. It does not treat every NULL, negative value or statistical outlier as corruption.
+
+- **Exact types:** Python `Decimal`, declared SQL decimal types and lossless handling of temporal values, including year-9999 sentinels.
+- **Correct relationships:** validate customer buying groups against BuyingGroups; retain composite keys where the relationship requires them.
+- **Financial meaning:** unmatched supplier-invoice amounts remain unknown rather than becoming fabricated zeros.
+- **Source preservation:** eight invoice fields outside the Silver projection remain in keyed evidence; they are not silently discarded.
+- **Controlled loading:** explicit schemas, parameterized loading, transactional checks and guarded writes preserve the baseline. No automatic table replacement.
+
+Negative-profit invoice lines, missing picker identifiers and historical invoice delays are preserved where corrections lack defensible evidence. **227 inventory reconciliation discrepancies remain business questions**, not repaired balances. Final scope and consolidated business rules require collective agreement.
+
+## Gold analytical model
+
+<p align="center"><img src="assets/readme/model-grains.svg" alt="Gold view grains: order line, invoice line, purchase line and stock movement. Keep measures at their own business grain before aggregation. The final dimensional model is subject to review." width="640"></p>
+
+The Gold layer connects transaction views with product, customer, supplier and geographic context. Important views include `vw_OrderLine`, `vw_InvoiceLine`, `vw_PurchaseLine`, `vw_ItemMaster`, `vw_StockMovement` and the customer/supplier ledgers.
+
+**Modeling rules that protect the answer:**
+
+- Aggregate invoice-level delivery measures at invoice grain, not once per invoice line.
+- Distinguish purchasing outer packs from individual sales units.
+- Treat expected purchase values separately from actual supplier expenditure.
+- Treat holdings as a snapshot, not historical daily inventory.
+- Check cardinality before expanding stock-group relationships or combining fact-like views.
+
+The tested SQL views provide a foundation for a future dimensional and Power BI semantic model. They do not, by themselves, establish an approved star or galaxy schema. [Explore the ERD and physical contracts →](01_Project_Planning_and_Documentation/4_System_Analysis_and_Design/04_System_Analysis_and_Design.pdf)
+
+## Analytics domains
+
+<picture>
+  <source media="(prefers-reduced-motion: reduce) and (max-width: 680px)" srcset="assets/readme/domains-mobile.png">
+  <source media="(prefers-reduced-motion: reduce)" srcset="assets/readme/domains.png">
+  <source media="(max-width: 680px)" srcset="assets/readme/domains-mobile.gif">
+  <img src="assets/readme/domains.gif" alt="Five intended analytical domains: sales performance, customer analytics, inventory intelligence, purchasing and suppliers, and fulfillment efficiency. Chart motifs are conceptual, not measured results." width="100%">
+</picture>
+
+The intended reporting experience brings these domains into three Power BI pages: **Executive Overview**, **Sales & Customers**, and **Inventory & Purchasing**. Planned measures cover billed sales, recorded profit, demand, fulfillment and stock availability, with explicit units and date definitions.
+
+The illustrations above express analytical themes, not completed dashboards or measured business findings. Power BI remains the planned presentation layer.
 
 ## Technology stack
 
-<p>
-<img src="https://img.shields.io/badge/Microsoft%20SQL%20Server-Express-CC2927?style=flat-square&labelColor=0A1A2F" alt="Microsoft SQL Server Express">
-<img src="https://img.shields.io/badge/T--SQL-read--only%20queries-CC2927?style=flat-square&labelColor=0A1A2F" alt="T-SQL, read-only queries">
-<img src="https://img.shields.io/badge/Python-3.14-3776AB?style=flat-square&logo=python&logoColor=white&labelColor=0A1A2F" alt="Python 3.14">
-<img src="https://img.shields.io/badge/pandas-3.0-150458?style=flat-square&logo=pandas&logoColor=white&labelColor=0A1A2F" alt="pandas 3.0">
-<img src="https://img.shields.io/badge/Jupyter-notebooks-F37626?style=flat-square&logo=jupyter&logoColor=white&labelColor=0A1A2F" alt="Jupyter">
-<img src="https://img.shields.io/badge/Power%20BI-planned-F2C811?style=flat-square&labelColor=0A1A2F" alt="Power BI, planned">
-<img src="https://img.shields.io/badge/GitHub-collaboration-181717?style=flat-square&logo=github&logoColor=white&labelColor=0A1A2F" alt="GitHub">
-</p>
-
-| Area | Tools |
+| Foundation | Tools and purpose |
 |---|---|
-| Source database | Microsoft SQL Server (Express), SSMS, T-SQL (read-only queries) |
-| Data preparation | Python 3.14, pandas 3.0, pyodbc, Jupyter |
-| Validation | Python `unittest`, standard-library verifiers, read-only SQL reconciliation |
-| Planned modeling and reporting | Custom star schema in SQL Server, Power BI Desktop, Power Query, DAX |
-| Collaboration | GitHub |
+| **SQL Server · T-SQL** | Operational source, Bronze/Silver tables, Gold views, typed contracts and reconciliation queries |
+| **Python · pandas · Decimal** | Reproducible transformations, data-quality checks and exact financial arithmetic |
+| **Jupyter · pyodbc** | Inspectable analytical work and Windows-authenticated SQL connectivity |
+| **ETL · automated tests** | Controlled loading, keyed readback, repeatability and baseline preservation |
+| **Git · GitHub** | Versioned documentation, review and official submission |
+| **Power BI · Power Query · DAX** | Planned semantic modeling, measures and interactive reporting |
 
-<p align="center"><img src="assets/divider.png" alt="" width="70%"></p>
+## Technical validation
 
-## Dataset
+<p align="center"><img src="assets/readme/validation.svg" alt="Recorded local validation: 14 cleaning components, 31 Silver tables, 18 Gold SQL views, 80 trusted foreign keys and 1,057,452 Silver rows. SQL roundtrip, metric and repeatability checks passed." width="640"></p>
 
-**Source:** the SQL Server database **`WideWorldImporters`**, the full OLTP sample. The separate `WideWorldImportersDW` warehouse sample is used only as a design reference. Microsoft's data is synthetic and historical (2013 to May 2016), so any finding describes the sample, not a real company.
+The isolated integration was committed locally on **11 November 2026**, with independent verification of persisted results on **13 November 2026**. Recorded checks passed for:
 
-**Exported:** 16 tables, **852,074 rows** and **139 columns**, as CSV files in [`00_Source_Data/CSV_Exports/`](00_Source_Data/CSV_Exports/). The export was checked against SQL Server; see the [export QA report](00_Source_Data/CSV_Exports/CSV_Export_QA_Report.html).
+- Exact SQL roundtrip reconciliation across all 31 candidate Silver outputs.
+- Primary/composite keys and 80 enabled, trusted foreign keys.
+- Execution of all 18 candidate Gold views and selected financial/quantity reconciliations.
+- Deterministic transformation results, repeat-load behavior and baseline preservation.
 
-| Schema | Table (rows) |
+These results establish technical consistency for the tested snapshot—not production readiness or final approval of KPI meaning. The [System Analysis & Design submission](01_Project_Planning_and_Documentation/4_System_Analysis_and_Design/04_System_Analysis_and_Design.pdf) records the evidence, architecture and limitations.
+
+<details>
+<summary><strong>Interpretation boundaries</strong></summary>
+
+The proposed source-scope expansion and unified cleaned dataset require team agreement. Inventory discrepancies and unmatched supplier-invoice interpretations remain open. Relationships outside the tested projection, incomplete cold-room history, full sequential notebook replay, source extraction replay and production/incremental deployment are not covered by the successful candidate test. Matching arithmetic does not establish business validity.
+
+</details>
+
+## Project documentation
+
+| Explore | Published deliverables |
 |---|---|
-| **Sales** | Orders (73,595), OrderLines (231,412), Invoices (70,510), InvoiceLines (228,265), Customers (663), CustomerCategories (8) |
-| **Purchasing** | PurchaseOrders (2,074), PurchaseOrderLines (8,367), Suppliers (13), SupplierCategories (9) |
-| **Warehouse** | StockItems (227), StockItemHoldings (227), StockItemTransactions (236,667), PackageTypes (14) |
-| **Application** | TransactionTypes (13), DeliveryMethods (10) |
+| **01 · Direction** | [Project Proposal](01_Project_Planning_and_Documentation/1_Project_Planning_and_Management/01_Project_Proposal.docx) / [Project Planning](01_Project_Planning_and_Documentation/1_Project_Planning_and_Management/02_Project_Planning.docx) / [Team Roles](01_Project_Planning_and_Documentation/1_Project_Planning_and_Management/03_Team_Roles.docx) |
+| **02 · Research** | [Literature & Lecturer Review](01_Project_Planning_and_Documentation/2_Literature_Review/05_Literature_and_Lecturer_Review.docx) |
+| **03 · Requirements** | [Requirements Gathering](01_Project_Planning_and_Documentation/3_Requirements_Gathering/04_Requirements_Gathering.docx) |
+| **04 · System design** | [Read the PDF](01_Project_Planning_and_Documentation/4_System_Analysis_and_Design/04_System_Analysis_and_Design.pdf) / [Editable Word document](01_Project_Planning_and_Documentation/4_System_Analysis_and_Design/04_System_Analysis_and_Design.docx) |
 
-**Format:** UTF-8 with BOM, every field quoted, `\N` for SQL NULL. Load the files as the [Data Dictionary](00_Source_Data/CSV_Exports/Data_Dictionary.md) describes; default `pd.read_csv` settings misread NULLs and money values. Personal-data tables such as `Application.People` were deliberately not exported.
+Download Word files to view or edit them. The design PDF provides a readable entry point for technical reviewers.
 
-The full database backup is available from the [official Microsoft release](https://github.com/microsoft/sql-server-samples/releases/tag/wide-world-importers-v1.0) (`WideWorldImporters-Full.bak`).
+### Repository guide
 
-## Analytics workflow
+This official submission repository publishes **source exports and documentation**. The wider implementation and test evidence are maintained in the unified local working project; this page does not imply that its Python, SQL, notebooks or candidate datasets are already published here.
 
-<p align="center">
-<img src="assets/workflow.gif" alt="Project workflow in eight stages. Completed: SQL Server source, CSV export of 16 tables, data understanding and profiling. In progress: data cleaning, six individual candidates. Pending: team consolidation into one approved dataset. Planned: exploratory analysis, data warehouse with star schema and ETL, Power BI with three report pages." width="100%">
-</p>
-
-<picture>
-  <source media="(min-width: 768px)" srcset="assets/readme/workflow-diagram.svg">
-  <img src="assets/readme/workflow-diagram-mobile.svg" alt="Project workflow in eight steps: 1 Source (completed), 2 Data understanding and profiling (completed), 3 Individual cleaning submissions (in progress), 4 Team review and consolidation (pending), 5 Approved unified dataset, 6 Exploratory data analysis, 7 Star schema data warehouse, 8 Power BI (all planned)." width="100%">
-</picture>
-
-<p align="center"><sub>Project workflow from source data to analytics and BI deliverables. <a href="docs/workflow-diagram.md">Mermaid source</a>.</sub></p>
-
-<p align="center"><img src="assets/divider.png" alt="" width="70%"></p>
-
-## Current progress
-
-| Phase | Status | Notes |
-|---|:-:|---|
-| Project Planning & Management | ![Documented](https://img.shields.io/badge/documented-0F766E?style=flat-square) | [Proposal, plan and team roles](01_Project_Planning_and_Documentation/1_Project_Planning_and_Management/) |
-| Literature Review | ![Documented](https://img.shields.io/badge/documented-0F766E?style=flat-square) | [Literature and lecturer review](01_Project_Planning_and_Documentation/2_Literature_Review/). No written instructor evaluation has been received yet. |
-| Requirements Gathering | ![Documented](https://img.shields.io/badge/documented-0F766E?style=flat-square) | [Requirements documentation](01_Project_Planning_and_Documentation/3_Requirements_Gathering/) |
-| System Analysis & Design | Documented | [DOCX](01_Project_Planning_and_Documentation/4_System_Analysis_and_Design/04_System_Analysis_and_Design.docx) / [PDF](01_Project_Planning_and_Documentation/4_System_Analysis_and_Design/04_System_Analysis_and_Design.pdf). Tested local architecture; scope and business approvals remain pending. |
-| Database restore and CSV export | ![Completed](https://img.shields.io/badge/completed-0F766E?style=flat-square) | 16 tables, checked against SQL Server |
-| Data understanding and profiling | ![Completed](https://img.shields.io/badge/completed%20individually-0F766E?style=flat-square) | Notebooks are being finalized and will be uploaded later. |
-| Individual data cleaning | ![In progress](https://img.shields.io/badge/in%20progress-0E7490?style=flat-square) | All six members clean the full 16-table scope independently. One candidate is completed and verified; the others are in preparation. |
-| Team comparison and consolidation | ![Pending](https://img.shields.io/badge/pending-B45309?style=flat-square) | No unified cleaning approach or cleaned dataset has been approved. |
-| EDA, data warehouse, ETL, Power BI | ![Not started](https://img.shields.io/badge/not%20started-475569?style=flat-square) | Begins after the unified dataset is approved. |
-| Testing, final report, presentation | ![Not started](https://img.shields.io/badge/not%20started-475569?style=flat-square) | Final submission due 4 Dec 2026. |
-
-### How the cleaning submissions are consolidated
-
-The team will compare each member's documented data scope, cleaning decisions, reproducible code and before/after validation. Conflicting decisions and open business questions are reviewed before one dataset is approved. Raw source files stay unchanged. Official cleaned datasets, notebooks, code and reports will be published here only after that review.
-
-## Documentation
-
-| Document | Section | Link |
-|---|---|---|
-| Project Proposal | Planning & Management | [01_Project_Proposal.docx](01_Project_Planning_and_Documentation/1_Project_Planning_and_Management/01_Project_Proposal.docx) |
-| Project Planning | Planning & Management | [02_Project_Planning.docx](01_Project_Planning_and_Documentation/1_Project_Planning_and_Management/02_Project_Planning.docx) |
-| Team Roles | Planning & Management | [03_Team_Roles.docx](01_Project_Planning_and_Documentation/1_Project_Planning_and_Management/03_Team_Roles.docx) |
-| Literature and Lecturer Review | Literature Review | [05_Literature_and_Lecturer_Review.docx](01_Project_Planning_and_Documentation/2_Literature_Review/05_Literature_and_Lecturer_Review.docx) |
-| Requirements Gathering | Requirements | [04_Requirements_Gathering.docx](01_Project_Planning_and_Documentation/3_Requirements_Gathering/04_Requirements_Gathering.docx) |
-| System Analysis & Design | Section 4 | [Editable DOCX](01_Project_Planning_and_Documentation/4_System_Analysis_and_Design/04_System_Analysis_and_Design.docx) / [PDF](01_Project_Planning_and_Documentation/4_System_Analysis_and_Design/04_System_Analysis_and_Design.pdf) |
-| Data Dictionary (14 tables) | Source data | [Data_Dictionary.md](00_Source_Data/CSV_Exports/Data_Dictionary.md) |
-| Customer export addendum (2 tables) | Source data | [Customer_Export_Addendum.md](00_Source_Data/CSV_Exports/Customer_Export_Addendum.md) |
-| CSV export QA report | Source data | [CSV_Export_QA_Report.html](00_Source_Data/CSV_Exports/CSV_Export_QA_Report.html) |
-
-<sub>GitHub cannot preview `.docx` files; use the download button on each file page.</sub>
-
-## Repository structure
-
-```text
-NHA-5-272/
-├── README.md                                  project overview and current status
-├── assets/                                    README banner, workflow animation, divider
-│   └── readme/                                static workflow diagrams (desktop and mobile)
-├── docs/                                      workflow diagram source (Mermaid)
-├── 00_Source_Data/
-│   ├── README.md                              source notes and backup download
-│   └── CSV_Exports/                           16 raw CSVs, data dictionary, addendum, export QA
-└── 01_Project_Planning_and_Documentation/
-    ├── README.md                              section index
-    ├── 1_Project_Planning_and_Management/     proposal, planning, team roles
-    ├── 2_Literature_Review/                   literature and lecturer review
-    ├── 3_Requirements_Gathering/              requirements documentation
-    └── 4_System_Analysis_and_Design/          editable design document and matching PDF
-```
-
-<p align="center"><img src="assets/divider.png" alt="" width="70%"></p>
-
-## Team
-
-Our graduation project is developed collaboratively by a six-member team in the DEPI (Digital Egypt Pioneers Initiative) Professional Data Analyst Track.
-
-| Member | Role |
+| Location | Contents |
 |---|---|
-| Omar Mahmoud Sophy Rezk | Team Leader & Project Integration |
-| Ahmed Saleh Abdelzaher | Data Engineering & ETL |
-| Sara Mostafa Abdelhafiz | Data Analysis & Data Quality |
-| Abdelrahman Mohammed Fathy | SQL & Data Warehouse |
-| Samir Magdy Yacoub | Power BI & DAX |
-| Ola Abdelkader Mahmoud Mohamed | Business Analysis & Documentation |
+| [`00_Source_Data/`](00_Source_Data/) | Source notes, 16 CSV exports, dictionary and export QA |
+| [`01_Project_Planning_and_Documentation/`](01_Project_Planning_and_Documentation/) | Four documentation sections and editable submissions |
+| [`assets/readme/`](assets/readme/) | Original animated and static presentation graphics |
 
-## Roadmap
+## Project team
 
-1. Compare the six cleaning submissions and approve one unified dataset.
-2. Exploratory data analysis on the approved dataset.
-3. Review the submitted System Analysis & Design; agree on source scope and the future dimensional model.
-4. Extend the isolated, technically tested ETL candidate after team approval; production deployment remains pending.
-5. Power BI: three report pages with validated KPIs.
-6. Testing, final report and presentation (due 4 Dec 2026).
+Six members in the **Digital Egypt Pioneers Initiative — Professional Data Analyst Track**. The roles below follow the submitted team documentation.
 
-## Not included yet
+| Member | Documented responsibility |
+|---|---|
+| **Omar Mahmoud Sophy Rezk** | Team Leadership & Project Integration |
+| **Ahmed Saleh Abdelzaher** | Data Engineering & ETL |
+| **Sara Mostafa Abdelhafiz** | Data Analysis & Data Quality |
+| **Abdelrahman Mohammed Fathy** | SQL & Data Warehouse |
+| **Samir Magdy Yacoub** | Power BI & DAX |
+| **Ola Abdelkader Mahmoud Mohamed** | Business Analysis & Documentation |
 
-- **Jupyter notebooks.** Data understanding and profiling notebooks are being finalized and will be uploaded later. Cleaning notebooks need team review and approval first.
-- **Cleaning code, candidate cleaned datasets and reports.** Held back until the team approves a unified implementation.
-- **SQL Server backups** (`.bak`, 54 to 127 MB each). They are Microsoft's public files; see the release link under [Dataset](#dataset).
-- Personal study guides, archived drafts, local environments and temporary files.
+## References and acknowledgments
 
-<div align="center">
-<br>
-<sub>DEPI (Digital Egypt Pioneers Initiative) graduation project. Data: Microsoft Wide World Importers sample database.</sub>
-</div>
+- [Microsoft SQL Server Samples](https://github.com/microsoft/sql-server-samples) — original Wide World Importers dataset and source attribution.
+- [Wide World Importers release](https://github.com/microsoft/sql-server-samples/releases/tag/wide-world-importers-v1.0) — original database backups.
+- DEPI documentation guidelines and the submitted [literature review](01_Project_Planning_and_Documentation/2_Literature_Review/05_Literature_and_Lecturer_Review.docx) — academic context and design references.
+
+All README illustrations are original project graphics. Static alternatives are supplied for reduced-motion preferences and direct viewing: [hero](assets/readme/hero.png), [architecture](assets/readme/architecture.png), [analytics domains](assets/readme/domains.png). [Visual sources and reproduction notes](docs/workflow-diagram.md).
+
+---
+
+**Operational detail → trustworthy data → informed supply-chain decisions.**
